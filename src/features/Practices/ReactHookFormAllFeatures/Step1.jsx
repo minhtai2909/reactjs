@@ -1,14 +1,15 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Typography } from '@material-ui/core';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
-import MainContainer from './components/MainContainer';
+import { useRouteMatch } from 'react-router-dom';
+import * as yup from "yup";
 import Form from './components/Form';
 import Input from './components/Input';
+import MainContainer from './components/MainContainer';
 import PrimaryButton from './components/PrimaryButton';
-import { Typography } from '@material-ui/core';
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useData } from './DataContext';
 
 Step1.propTypes = {
 
@@ -25,18 +26,28 @@ const schema = yup.object().shape({
 });
 
 function Step1(props) {
+    const { path } = useRouteMatch();
+    const { data, setValues } = useData();
     const { register, errors, handleSubmit } = useForm({
+        defaultValues: { firstName: data.firstName, lastName: data.lastName },
         mode: "onBlur",
         resolver: yupResolver(schema)
     });
+
     const history = useHistory();
+    const onSubmit = (value) => {
+        history.push(`${path}Step2`);
+        setValues(value);
+    }
+    console.log("data-Context", data)
+
     return (
         <MainContainer>
             <Typography component="h2" variant="h5">
                 🦄 Step 1 🐔
             </Typography>
 
-            <Form type="submit">
+            <Form type="submit" onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     type="text"
                     name="firstName"

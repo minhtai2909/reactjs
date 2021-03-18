@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Switch, useRouteMatch, Route } from 'react-router-dom';
 import ReactHookForm from './ReactHookForm';
 import ReactHookFormAllFeatures from './ReactHookFormAllFeatures';
+import { DataProvider } from './ReactHookFormAllFeatures/DataContext';
 
 Practice.propTypes = {
 

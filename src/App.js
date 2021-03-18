@@ -7,7 +7,6 @@ import Practices from './features/Practices';
 function App() {
   return (
     <div className="App">
-      Header
       <p>
         <Link to="/todos">Todos</Link>
         <Link to="/albums">Albums</Link>
