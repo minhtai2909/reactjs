@@ -13,6 +13,7 @@ function Practice(props) {
     const { path, url } = useRouteMatch();
     return (
         <div>
+            🍌
             <ul>
                 <li><Link to={`${url}/ReactHookForm`} >ReactHookForm</Link></li>
                 <li><Link to={`${url}/ReactHookFormAllFeatures`} >ReactHookFormAllFeatures</Link></li>

@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import FileInput from './components/FileInput';
 import Form from './components/Form';
 import MainContainer from './components/MainContainer';
@@ -13,6 +13,7 @@ Step3.propTypes = {
 };
 
 function Step3() {
+    const { path } = useRouteMatch();
     const history = useHistory();
     const { data, setValues } = useData();
     const { control, handleSubmit } = useForm({
@@ -22,8 +23,9 @@ function Step3() {
     });
 
     const onSubmit = (value) => {
+
         setValues(value);
-        history.push(`/result`);
+        history.push("result");
     }
 
 

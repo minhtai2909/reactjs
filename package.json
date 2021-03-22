@@ -17,6 +17,7 @@
     "query-string": "^6.13.8",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.1",
+    "react-confetti": "^6.0.1",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.3.1",
     "react-hook-form": "^6.15.4",
@@ -30,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "sh ./deploy-surge.sh"
   },
   "eslintConfig": {
     "extends": [
