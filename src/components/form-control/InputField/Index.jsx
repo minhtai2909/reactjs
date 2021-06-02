@@ -13,15 +13,18 @@ InputField.propTypes = {
 
 function InputField(props) {
     const { form, name, label, disabled } = props;
-    const { errors, formState } = form;
-    const hasError = formState.touched[name] && errors[name];
+    const { errors } = form;
+    const hasError = errors[name];
 
-    console.log(formState.touched[name], errors[name]);
     return (
         <Controller
             name={name}
             control={form.control}
             as={TextField}
+
+            variant="outlined"
+            margin="normal"
+            size="small"
 
             fullWidth
             label={label}

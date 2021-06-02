@@ -4,15 +4,13 @@ import AlbumFeature from "./features/Album"
 import React from 'react';
 import NotFound from './components/NotFound';
 import Practices from './features/Practices';
+import counterFeature from 'features/Counter';
+import Header from 'components/Header';
 function App() {
   return (
     <div className="App">
-      <p>
-        <Link to="/todos">Todos</Link>
-        <Link to="/albums">Albums</Link>
-        <Link to="/Practices">Practices</Link>
+      <Header />
 
-      </p>
       <Switch>
         {/* <Redirect from="/home/:cc" to="/todos/:cc" exact /> */}
 
@@ -20,6 +18,7 @@ function App() {
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
         <Route path="/Practices" component={Practices} />
+        <Route path="/Counter" component={counterFeature} />
 
         <Route component={NotFound} />
       </Switch>
