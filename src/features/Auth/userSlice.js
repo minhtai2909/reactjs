@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "api/userAPI";
+import StorageKeys from "constants/storage-keys";
 
 export const register = createAsyncThunk(
     'user/register', async (payload) => {
@@ -7,8 +8,8 @@ export const register = createAsyncThunk(
         const data = await userAPI.register(payload);
 
         // Save data to localStore
-        localStorage.setItem('access_token', data.jwt);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+        localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
         // return user data
         return data.user;
@@ -19,8 +20,8 @@ export const login = createAsyncThunk(
     'user/login', async (payload) => {
         const data = await userAPI.login(payload);
         // Save data to localStore
-        localStorage.setItem('access_token', data.jwt);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+        localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
         // return user data
         return data.user;
     }
@@ -29,11 +30,18 @@ export const login = createAsyncThunk(
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        current: {},
+        current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
         settings: {},
 
     },
-    reducers: {},
+    reducers: {
+        logout(state) {
+            // clear local storage
+            localStorage.removeItem(StorageKeys.USER);
+            localStorage.removeItem(StorageKeys.TOKEN);
+            state.current = {};
+        }
+    },
     extraReducers: {
         [register.fulfilled]: (state, action) => {
             state.current = action.payload
@@ -45,5 +53,6 @@ const userSlice = createSlice({
     }
 });
 
-const { reducer } = userSlice;
+const { reducer, actions } = userSlice;
+export const { logout } = actions;
 export default reducer;

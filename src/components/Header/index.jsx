@@ -13,12 +13,15 @@ import Login from 'features/Auth/Components/Login';
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Box } from '@material-ui/core';
+import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { AccountCircle } from '@material-ui/icons';
+import { logout } from 'features/Auth/userSlice';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1,    
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -35,10 +38,14 @@ const MODE = {
     LOGIN: 'login', REGISTER: 'register'
 }
 export default function Header() {
+    const dispatch = useDispatch();
     const classes = useStyles();
 
+    const loggedInUser = useSelector(state => state.user.current);
+    const isLoggedIn = !!loggedInUser.id;
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(MODE.LOGIN);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -47,6 +54,18 @@ export default function Header() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleUserClick = (e) => {
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogoutClick = () => {
+        dispatch(logout());
+    }
 
     return (
         <div className={classes.root}>
@@ -72,10 +91,41 @@ export default function Header() {
                     <NavLink to="/Counter" className={classes.link}>
                         <Button color="inherit">Counter</Button>
                     </NavLink>
+                    {
+                        isLoggedIn
+                            ?
+                            <>
+                                <IconButton color="inherit" onClick={handleUserClick}>
+                                    <AccountCircle ></AccountCircle>
+                                </IconButton>
+                            </>
+                            :
+                            <>
+                                <Button color="inherit" onClick={() => handleClickOpen()}>Login</Button>
+                            </>
+                    }
 
-                    <Button color="inherit" onClick={() => handleClickOpen()}>Register</Button>
                 </Toolbar>
             </AppBar>
+
+            <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                getContentAnchorEl={null}
+            >
+                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+                <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+            </Menu>
 
             <Dialog
                 disableBackdropClick
