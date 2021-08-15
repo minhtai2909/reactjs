@@ -12,16 +12,17 @@ import Register from 'features/Auth/Components/Register';
 import Login from 'features/Auth/Components/Login';
 
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { NavLink, useHistory } from 'react-router-dom';
+import { Badge, Box, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle, ShoppingCart } from '@material-ui/icons';
 import { logout } from 'features/Auth/userSlice';
+import { cartItemsTotalSelector } from 'features/Cart/cartSelector';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,    
+        flexGrow: 1,
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -39,9 +40,11 @@ const MODE = {
 }
 export default function Header() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const classes = useStyles();
 
     const loggedInUser = useSelector(state => state.user.current);
+    const cartItemCount = useSelector(cartItemsTotalSelector);
     const isLoggedIn = !!loggedInUser.id;
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(MODE.LOGIN);
@@ -65,6 +68,10 @@ export default function Header() {
 
     const handleLogoutClick = () => {
         dispatch(logout());
+    }
+
+    const handleCartClick = () => {
+        history.push('/cart');
     }
 
     return (
@@ -91,6 +98,12 @@ export default function Header() {
                     <NavLink to="/Counter" className={classes.link}>
                         <Button color="inherit">Counter</Button>
                     </NavLink>
+
+                    <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleCartClick}>
+                        <Badge badgeContent={cartItemCount} color="secondary">
+                            <ShoppingCart />
+                        </Badge>
+                    </IconButton>
                     {
                         isLoggedIn
                             ?

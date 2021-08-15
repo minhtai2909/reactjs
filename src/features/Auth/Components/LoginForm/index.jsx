@@ -86,17 +86,16 @@ function LoginForm(props) {
 
                 <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <InputField name="identifier" label="Email" form={form} />
-                    
                     <PasswordField name="password" label="Password" form={form} type="password" />
 
-                    <Button 
-                    disable={!!isSubmitting || "false"} 
-                    type="submit" 
-                    className={classes.submit} 
-                    variant="contained" 
-                    color="primary"
-                    fullWidth
-                     >
+                    <Button
+                        disable={!!isSubmitting || "false"}
+                        type="submit"
+                        className={classes.submit}
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                    >
                         Sign in
                     </Button>
                 </form>

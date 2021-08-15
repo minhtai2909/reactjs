@@ -20,8 +20,8 @@ PasswordField.propTypes = {
 
 function PasswordField(props) {
     const { form, name, label, disabled } = props;
-    const { errors } = form;
-    const hasError = !!errors[name];
+    const { formState: { errors } } = form;
+    const hasError = !!errors && errors[name];
     const [showPassword, setShowPassword] = useState(false);
 
     const toggleShowPassword = () => {
@@ -35,23 +35,33 @@ function PasswordField(props) {
                 name={name}
                 control={form.control}
                 size="small"
-                as={OutlinedInput}
-                id={name}
-                type={showPassword ? 'text' : 'password'}
-                label={label}
-                endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={toggleShowPassword}
-                            edge="end"
-                        >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                    </InputAdornment>
+                //   as={OutlinedInput}
+                render={({ onChange, onBlur, value, name }) => 
+                    <OutlinedInput
+                        id={name}
+                        type={showPassword ? 'text' : 'password'}
+                        label={label}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={toggleShowPassword}
+                                    edge="end"
+                                >
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        disabled={disabled}
+                        error={!!hasError}
+
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        name={name}
+                    />
                 }
-                disabled={disabled}
-                error={!!hasError}
+
             />
             <FormHelperText> {errors[name]?.message}</FormHelperText>
         </FormControl>

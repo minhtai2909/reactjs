@@ -7,6 +7,7 @@ import Practices from './features/Practices';
 import counterFeature from 'features/Counter';
 import Header from 'components/Header';
 import ProductFeature from 'features/Product';
+import CartFeature from 'features/Cart';
 function App() {
   return (
     <div className="App2">
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Practices" component={Practices} />
         <Route path="/Counter" component={counterFeature} />
         <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
 
         <Route component={NotFound} />
       </Switch>
